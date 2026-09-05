@@ -55,7 +55,7 @@ jobs:
 
       - name: Upload Coverage Artifact (Ubuntu only)
         if: matrix.os == 'ubuntu-latest' && !env.ACT
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-report
           path: coverage/
