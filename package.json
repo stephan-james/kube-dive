@@ -2,7 +2,7 @@
 	"name": "kube-dive",
 	"displayName": "Kube Dive",
 	"description": "Virtual filesystem for Kubernetes Pods",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"publisher": "Stephan-James-Dick",
 	"repository": {
 		"type": "git",

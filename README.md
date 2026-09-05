@@ -78,3 +78,7 @@ Added more feeback for kubectl file transfer commands.
 ### 1.1.0
 
 Added lazy loading for clusters and namespaces, caching, and refresh command.
+
+### 1.1.1
+
+Clean code architecture improvements, resource disposal, timeout handling, and GitHub Actions CI/CD release pipeline.
