@@ -1,0 +1,123 @@
+{
+	"name": "kube-dive",
+	"displayName": "Kube Dive",
+	"description": "Virtual filesystem for Kubernetes Pods",
+	"version": "1.1.0",
+	"publisher": "Stephan-James-Dick",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/stephan-james/kube-dive"
+	},
+	"license": "Apache-2.0",
+	"icon": "resources/icon.png",
+	"engines": {
+		"vscode": "^1.80.0"
+	},
+	"categories": [
+		"Azure",
+		"Other"
+	],
+	"keywords": [
+		"kubernetes",
+		"namespaces",
+		"pods",
+		"vfs",
+		"virtual file system",
+		"aks",
+		"gke",
+		"aws"
+	],
+	"activationEvents": [
+		"onStartupFinished",
+		"onFileSystem:kubedive"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "kubedive.openShell",
+				"title": "Kube Dive: Open Shell"
+			},
+			{
+				"command": "kubedive.download",
+				"title": "Kube Dive: Download to local directory"
+			},
+			{
+				"command": "kubedive.downloadFile",
+				"title": "Kube Dive: Download to workspace"
+			},
+			{
+				"command": "kubedive.refresh",
+				"title": "Kube Dive: Refresh",
+				"icon": "$(refresh)"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "kubedive.refresh",
+					"when": "resourceScheme == kubedive",
+					"group": "navigation"
+				},
+				{
+					"command": "kubedive.openShell",
+					"when": "resourceScheme == kubedive && resourcePath =~ /^\\/[^\\/]+\\/[^\\/]+\\/[^\\/]+/"
+				},
+				{
+					"command": "kubedive.download",
+					"when": "resourceScheme == kubedive && !explorerResourceIsFolder && resourcePath =~ /^\\/[^\\/]+\\/[^\\/]+\\/[^\\/]+\\/.+/"
+				},
+				{
+					"command": "kubedive.downloadFile",
+					"when": "resourceScheme == kubedive && !explorerResourceIsFolder && resourcePath =~ /^\\/[^\\/]+\\/[^\\/]+\\/[^\\/]+\\/.+/"
+				}
+			]
+		},
+		"configuration": {
+			"title": "Kube Dive",
+			"properties": {
+				"kubedive.kubectlPath": {
+					"type": "string",
+					"default": "kubectl",
+					"description": "Path to the kubectl binary"
+				},
+				"kubedive.maxBufferSizeMB": {
+					"type": "number",
+					"default": 100,
+					"description": "Maximum standard output buffer size in MB when executing kubectl commands"
+				},
+				"kubedive.timeoutSeconds": {
+					"type": "number",
+					"default": 30,
+					"description": "Timeout in seconds for kubectl commands (prevents hanging Explorer progress bar)"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"code:format": "biome format --write ./src",
+		"code:format:check": "biome format ./src",
+		"code:lint": "biome lint ./src",
+		"code:check": "biome check --write ./src",
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"package": "vsce package",
+		"pretest": "npm run compile",
+		"lint": "npm run code:lint",
+		"test": "npm run compile && npx mocha --require out/test/setup.js out/test/**/*.test.js --timeout 10000",
+		"test:coverage": "npm run compile && npx c8 --reporter=text --reporter=text-summary --include=\"out/**\" --exclude=\"out/test/**\" mocha --require out/test/setup.js \"out/test/**/*.test.js\" --timeout 10000",
+		"ci:local": "npm run code:format:check && npm run code:lint && npm run test:coverage",
+		"ci:act": "act push -W .github/workflows/ci.yml",
+		"bundle": "npx vsce package"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.12",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^20.19.43",
+		"@types/vscode": "^1.80.0",
+		"c8": "^12.0.0",
+		"mocha": "^12.0.0",
+		"typescript": "^5.1.3"
+	}
+}
