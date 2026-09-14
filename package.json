@@ -2,7 +2,7 @@
 	"name": "kube-dive",
 	"displayName": "Kube Dive",
 	"description": "Virtual filesystem for Kubernetes Pods",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"publisher": "Stephan-James-Dick",
 	"repository": {
 		"type": "git",
@@ -28,8 +28,7 @@
 		"aws"
 	],
 	"activationEvents": [
-		"onStartupFinished",
-		"onFileSystem:kubedive"
+		"*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
